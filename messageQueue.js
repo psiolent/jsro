@@ -1,8 +1,8 @@
 /**
  * Creates a queue for messages intended to be sent to the client.
  */
-module.exports.createQueue = function() {
-	"use strict";
+module.exports.create = function() {
+	'use strict';
 
 	// create the queue object
 	var queue = {};

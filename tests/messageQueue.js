@@ -1,17 +1,17 @@
 var expect = require('chai').expect;
-var messages = require('../messages.js');
+var messageQueue = require('../messageQueue.js');
 
-describe('messages', function() {
+describe('messageQueue', function() {
 	'use strict';
 
-	it('should convert to an array', function() {
-		expect(messages.createQueue().toArray()).to.be.an.instanceOf(Array);
+	it('converts to an array', function() {
+		expect(messageQueue.create().toArray()).to.be.an.instanceOf(Array);
 	});
 
-	it('should return an array with the number of elements enqueued', function() {
+	it('returns an array with the number of elements enqueued', function() {
 		var i, j, q;
 		for (i = 0; i < 10; i++) {
-			q = messages.createQueue();
+			q = messageQueue.create();
 			for (j = 0; j < i; j++) {
 				q.enqueue(null);
 			}
@@ -19,9 +19,9 @@ describe('messages', function() {
 		}
 	});
 
-	it('should return an array with the elements enqueued', function() {
+	it('returns an array with the elements enqueued', function() {
 		var i, q, a;
-		q = messages.createQueue();
+		q = messageQueue.create();
 		for (i = 0; i < 10; i++) {
 			q.enqueue(i);
 		}
@@ -31,11 +31,11 @@ describe('messages', function() {
 		}
 	});
 
-	it('should assign unique ids', function() {
+	it('assigns unique ids', function() {
 		var i, q, a, ids;
 
 		// enqueue some messages and convert to array
-		q = messages.createQueue();
+		q = messageQueue.create();
 		for (i = 0; i < 10; i++) {
 			q.enqueue(i);
 		}
@@ -54,16 +54,16 @@ describe('messages', function() {
 
 		// check each id
 		for (i = 0; i < 10; i++) {
-			expect(isUnique(a[i].id)).to.be.true;
+			expect(isUnique(a[i].id)).to.be.equal(true);
 		}
 	});
 
-	it('should clear up to specified item', function() {
+	it('clears up to specified item', function() {
 		var i, j, q, a;
 
 		for (i = 0; i < 10; i++) {
 			// enqueue some messages and convert to array
-			q = messages.createQueue();
+			q = messageQueue.create();
 			for (j = 0; j < 10; j++) {
 				q.enqueue(null);
 			}
