@@ -16,7 +16,7 @@ module.exports.create = function() {
 
 	/**
 	 * Adds the provided message to the queue.
-	 * @param message the message to add to the queue
+	 * @param {*} message the message to add to the queue
 	 */
 	queue.enqueue = function(message) {
 		// create the list item for this message
@@ -38,7 +38,7 @@ module.exports.create = function() {
 	/**
 	 * Clears all messages from the queue up to and including the identified
 	 * message.
-	 * @param id the id of the last message to clear from the queue
+	 * @param {number} id the id of the last message to clear from the queue
 	 */
 	queue.clear = function(id) {
 		var clearID;
