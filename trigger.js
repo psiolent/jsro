@@ -31,7 +31,7 @@ module.exports.create = function() {
 		listeners[event].push(fn);
 
 		return trigger;
-	}
+	};
 
 	/**
 	 * Unregisters one or all listeners for an event.
@@ -49,7 +49,9 @@ module.exports.create = function() {
 		}
 
 		// do we have any listeners for this event?
-		if (!listeners[event]) return trigger;
+		if (!listeners[event]) {
+			return trigger;
+		}
 
 		if (fn) {
 			// unregistering a specific listener for the event
@@ -65,7 +67,7 @@ module.exports.create = function() {
 		}
 
 		return trigger;
-	}
+	};
 
 	/**
 	 * Fires an event.
@@ -79,7 +81,9 @@ module.exports.create = function() {
 		}
 
 		// any listeners registered?
-		if (!listeners[event]) return trigger;
+		if (!listeners[event]) {
+			return trigger;
+		}
 
 		// get optional arguments
 		var args = Array.prototype.slice.call(arguments, 1);
@@ -90,7 +94,7 @@ module.exports.create = function() {
 		});
 
 		return trigger;
-	}
+	};
 
 	// return the trigger object
 	return trigger;

@@ -1,6 +1,5 @@
 var Q = require('q');
 var messageQueue = require('./messageQueue');
-var trigger = require('./trigger');
 
 /**
  * Creates a new connection. A connection represents a path of communication
@@ -127,10 +126,8 @@ module.exports.create = function(data, instantiate) {
 		disconnected = true;
 
 		// destroy all instances
-		var instanceIDs = instances.keys();
-		instanceIDs.forEach(function(instanceID) {
-			var instance = instances[instanceID];
-			delete instances[instanceID];
+		instances.forEach(function(instance) {
+			delete instances[instance.instanceID];
 			instance.fire('destroy');
 		});
 
@@ -155,7 +152,7 @@ module.exports.create = function(data, instantiate) {
 		var instanceID = nextID++;
 
 		// create a trigger for firing events the instance may want to listen to
-		var trigger = trigger.create();
+		var trigger = require('trigger').create();
 
 		// create a function for the instance to fire events that the client may
 		// want to listen to
@@ -246,7 +243,9 @@ module.exports.create = function(data, instantiate) {
 		}
 
 		// verify arguments
-		if (args === undefined) args = [];
+		if (args === undefined) {
+			args = [];
+		}
 		if (!(args instanceof Array)) {
 			throw new Error('invalid arguments; should be an array or nothing');
 		}
@@ -300,7 +299,7 @@ module.exports.create = function(data, instantiate) {
 	 */
 	function send(message) {
 		// queue it up
-		message.enqueue(message);
+		messages.enqueue(message);
 
 		// and send it now if there is a pending request
 		if (deferredResponse) {

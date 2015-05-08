@@ -22,8 +22,8 @@ module.exports.create = function() {
 	/**
 	 * Registers an object factory that can create requested instances.
 	 * @param {string} name the name of the factory
-	 * @param {Function} fn the factory function; should accept a single 'context' argument
-	 * and return an instance object
+	 * @param {Function} fn the factory function; should accept a single
+	 * 'context' argument and return an instance object
 	 * @return {} hub object
 	 */
 	hub.factory = function(name, fn) {
@@ -39,7 +39,8 @@ module.exports.create = function() {
 
 	/**
 	 * Accepts an incoming connection.
-	 * @param {*} [data] application specific data associated with the connection
+	 * @param {*} [data] application specific data associated with the
+	 *     connection
 	 * @returns {number} the ID of the connection
 	 */
 	hub.connect = function(data) {
@@ -82,9 +83,10 @@ module.exports.create = function() {
 	/**
 	 * Instantiates an object from the named factory, which was previously
 	 * registered.
-	 * @param {string} name the name of the previously registered factory from which to
-	 * instantiate the object
-	 * @param {*} [context] the context in which the object should be instantiated
+	 * @param {string} name the name of the previously registered factory from
+	 *     which to instantiate the object
+	 * @param {*} [context] the context in which the object should be
+	 *     instantiated
 	 * (this value or object will be passed to the factory function)
 	 * @returns {*} the instantiated object
 	 */

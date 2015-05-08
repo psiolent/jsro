@@ -44,7 +44,9 @@ describe('messageQueue', function() {
 		// check for uniqueness of ids
 		ids = [];
 		function isUnique(testID) {
-			if (ids.some(function(id) { return id === testID; })) {
+			if (ids.some(function(id) {
+					return id === testID;
+				})) {
 				return false;
 			} else {
 				ids.push(testID);
