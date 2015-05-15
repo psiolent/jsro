@@ -152,13 +152,20 @@ module.exports.create = function(data, instantiate) {
 		var instanceID = nextID++;
 
 		// create a trigger for firing events the instance may want to listen to
-		var trigger = require('trigger').create();
+		var trigger = require('./trigger').create();
+
+		// record when we've been fully instantiated
+		var instantiated;
 
 		// create a function for the instance to fire events that the client may
 		// want to listen to
 		function fire(event) {
 			if (typeof event !== 'string') {
 				throw new Error('"event" not a string');
+			}
+			if (!instantiated) {
+				// they've fired an event before being fully instantiated
+				throw new Error('instantiation not yet complete');
 			}
 			var args = Array.prototype.slice.call(arguments, 1);
 			fireEvent(instanceID, event, args);
@@ -173,8 +180,15 @@ module.exports.create = function(data, instantiate) {
 			fire: fire
 		};
 
-		// create the instance
-		Q.when(instantiate(name, context), function(instance) {
+		// create the instance and return a promise for it
+		return Q.when(instantiate(name, context), function(instance) {
+			// make sure instance is actually an object
+			if (typeof instance !== 'object') {
+				throw new Error('factory ' + name + ' returned non-object');
+			}
+
+			instantiated = true;
+
 			// wrap everything up and put it in our instances index
 			instances[instanceID] = {
 				object: instance,
@@ -197,7 +211,7 @@ module.exports.create = function(data, instantiate) {
 				instanceID: instanceID,
 				methods: methods
 			});
-		}, function(e) {
+		}).catch(function(e) {
 			// respond with error
 			send({
 				requestID: requestID,
