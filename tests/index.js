@@ -4,7 +4,7 @@ var index = require('../index.js');
 describe('index', function() {
 	'use strict';
 
-	it('should have "hello" for the hello property', function() {
-		expect(index.hello).to.equal('hello');
+	it('to have a router() function', function() {
+		expect(index.router).to.be.a('Function');
 	});
 });

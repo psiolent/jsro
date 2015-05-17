@@ -74,10 +74,12 @@ module.exports.create = function() {
 	/**
 	 * Requests pending messages being sent on the identified connection.
 	 * @param {number} id the ID of the connection
+	 * @param [ackID] the ID of the last message received and acknowledged by
+	 * the client
 	 * @returns {promise} a promise for messages being sent on the connection
 	 */
-	hub.request = function(id) {
-		return getConnection(id).request();
+	hub.request = function(id, ackID) {
+		return getConnection(id).request(ackID);
 	};
 
 	/**
