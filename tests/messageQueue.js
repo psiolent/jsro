@@ -76,4 +76,34 @@ describe('messageQueue', function() {
 			expect(q.toArray()).to.have.length(9 - i);
 		}
 	});
+
+	it('handles clear-to IDs for items already cleared', function() {
+		var i, q, a;
+
+		// enqueue some items
+		q = messageQueue.create();
+		for (i = 0; i < 10; i++) {
+			q.enqueue(null);
+		}
+		a = q.toArray();
+
+		// clear up to a particular item, then repeat and check length
+		q.clear(a[4].id);
+		q.clear(a[4].id);
+		expect(q.toArray()).to.have.length(5);
+	});
+
+	it('does not clear items for clear-to IDs not in queue', function() {
+		var i, q;
+
+		// enqueue some items
+		q = messageQueue.create();
+		for (i = 0; i < 10; i++) {
+			q.enqueue(null);
+		}
+
+		// clear up to a non-existent ID, which shouldn't clear anything
+		q.clear(1000);
+		expect(q.toArray()).to.have.length(10);
+	});
 });

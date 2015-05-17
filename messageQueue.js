@@ -41,17 +41,17 @@ module.exports.create = function() {
 	 * @param {number} id the id of the last message to clear from the queue
 	 */
 	queue.clear = function(id) {
-		var clearID;
-		if (first === null) {
-			return;
+		var clearThrough = first;
+		while (clearThrough !== null && clearThrough.id !== id) {
+			clearThrough = clearThrough.next;
 		}
-		do {
-			clearID = first.id;
-			first = first.next;
+		if (clearThrough !== null) {
+			// we found the item to clear through
+			first = clearThrough.next;
 			if (first === null) {
 				last = null;
 			}
-		} while (first !== null && clearID !== id);
+		}
 	};
 
 	/**
