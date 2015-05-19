@@ -83,7 +83,7 @@ module.exports.router = function() {
 				// 439 - Disconnected
 				// The request has been rejected because the requesting client
 				// has disconnected before the request could be fulfilled.
-				res.status(439).send('Abandoned');
+				res.status(439).send('Disconnected');
 			} else {
 				// something else, pass it on
 				next(error);
