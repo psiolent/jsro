@@ -1,3 +1,8 @@
+/**
+ * Create an Express router capable of hosting and managing multiple client
+ * connections and their instantiated remote objects.
+ * @returns {Router} an Express Router
+ */
 module.exports.router = function() {
 	'use strict';
 
