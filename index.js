@@ -118,7 +118,7 @@ module.exports.router = function() {
 		 * @returns {boolean} true if the session info is valid, false if not
 		 */
 		controller.isValid = function(requestSession) {
-			return (!session && session !== requestSession);
+			return (!session || session === requestSession);
 		};
 
 		/**
