@@ -170,6 +170,15 @@ module.exports.router = function() {
 	}
 
 	/**
+	 * Registers an object factory that can create requested instances.
+	 * @param {string} name the name of the factory
+	 * @param {Function} fn the factory function; should accept a single
+	 * 'context' argument and return an instance object
+	 * @return {} hub object
+	 */
+	router.factory = hub.factory;
+
+	/**
 	 * Gets or sets the connection data property name. When a new connection is
 	 * requested, this router will look for a property with this name on the
 	 * request object. If one is found, it will use its value as connection
