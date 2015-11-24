@@ -125,17 +125,17 @@ module.exports.create = function(data, instantiate) {
 
 		disconnected = true;
 
-		// destroy all instances
-		instances.forEach(function(instance) {
-			delete instances[instance.instanceID];
-			instance.fire('destroy');
-		});
-
 		// reject any outstanding request
 		if (deferredResponse) {
 			deferredResponse.reject('disconnected');
 			deferredResponse = undefined;
 		}
+
+		// destroy all instances
+		instances.forEach(function(instance) {
+			delete instances[instance.instanceID];
+			instance.fire('destroy');
+		});
 
 		return connection;
 	};

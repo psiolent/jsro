@@ -4,7 +4,7 @@ var index = require('../index.js');
 describe('index', function() {
 	'use strict';
 
-	it('has a router() function', function() {
-		expect(index.router).to.be.a('Function');
+	it('has a create() function', function() {
+		expect(index.create).to.be.a('Function');
 	});
 });

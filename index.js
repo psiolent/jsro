@@ -1,23 +1,24 @@
 /**
  * Create an Express router capable of hosting and managing multiple client
  * connections and their instantiated remote objects.
+ * @param Router the Express Router constructor
  * @returns {Router} an Express Router
  */
-module.exports.router = function() {
+module.exports.create = function(Router) {
 	'use strict';
 
 	// create the router
-	var router = require('express').Router();
+	var router = Router();
 
 	// create a json body parser
 	var jsonParser = require('body-parser').json();
 
 	// create a hub
-	var hub = require('hub').create();
+	var hub = require('./hub').create();
 
 	// controller objects for controlling our connections, indexed by
 	// connection ID
-	var controllers = {};
+	var controllers = [];
 
 	// default connection data property
 	var dataProperty = 'jsroData';
@@ -34,11 +35,20 @@ module.exports.router = function() {
 		var session = req[sessionProperty];
 		if (!req.jsroConnection || !req.jsroConnection.isValid(session)) {
 			res.status(404).send('No such connection');
+		} else {
+			next();
 		}
 	});
 
 	// handle ack ID parameter
-	router.param('ackID', /^\d+$/);
+	router.param('ackID', function(req, res, next, ackID) {
+		if (!/^\d+$/.test(ackID)) {
+			res.status(400).send('Bad ack ID');
+		} else {
+			req.ackID = parseInt(ackID);
+			next();
+		}
+	});
 
 	// get'ing the route's root establishes a new connection
 	router.get('/', function(req, res) {
@@ -72,7 +82,7 @@ module.exports.router = function() {
 	// get'ing a connection ID performs a long poll for messages from the
 	// connection
 	router.get('/:connectionID/:ackID?', function(req, res, next) {
-		req.jsroConnection.request().then(function(messages) {
+		req.jsroConnection.request(req.ackID).then(function(messages) {
 			res.json(messages);
 		}).catch(function(error) {
 			if (error === 'abandoned') {
@@ -109,8 +119,8 @@ module.exports.router = function() {
 		// create an interface for controlling our connection
 		var controller = {};
 
-		// a timeout object for scheduled inactivity timeouts
-		var timeoutObject;
+		// a timeout token for scheduled inactivity timeouts
+		var timeoutToken;
 
 		/**
 		 * Validates session info provided in a request.
@@ -125,7 +135,7 @@ module.exports.router = function() {
 		 * Disconnects the connection.
 		 */
 		controller.disconnect = function() {
-			clearTimeout(timeoutObject);
+			clearTimeout(timeoutToken);
 			hub.disconnect(connectionID);
 			delete controllers[connectionID];
 		};
@@ -153,10 +163,10 @@ module.exports.router = function() {
 		 * Starts (or restarts) the inactivity timeout for this connection.
 		 */
 		function restartTimeout() {
-			if (timeoutObject) {
-				clearTimeout(timeoutObject);
+			if (timeoutToken) {
+				clearTimeout(timeoutToken);
 			}
-			setTimeout(controller.disconnect, inactivityTimeout);
+			timeoutToken = setTimeout(controller.disconnect, inactivityTimeout);
 		}
 
 		// index the controller
