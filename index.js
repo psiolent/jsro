@@ -83,7 +83,7 @@ module.exports.create = function(Router) {
 	// connection
 	router.get('/:connectionID/:ackID?', function(req, res, next) {
 		req.jsroConnection.request(req.ackID).then(function(messages) {
-			res.json(messages);
+			res.type('json').send(JSON.stringify(messages, stringifyReplacer));
 		}).catch(function(error) {
 			if (error === 'abandoned') {
 				// we're making up a status code here because none of the ones
@@ -269,6 +269,24 @@ module.exports.create = function(Router) {
 			return router;
 		}
 	};
+
+	/**
+	 * A replacer function for stringify'ing messages.
+	 * @param key the property key
+	 * @param val the property value
+	 */
+	function stringifyReplacer(key, val) {
+		if (val instanceof Error) {
+			var replaceVal = {};
+			Object.getOwnPropertyNames(val).forEach(function(prop) {
+				if (prop !== 'stack' || process.env.NODE_ENV !== 'production') {
+					replaceVal[prop] = val[prop];
+				}
+			});
+			val = replaceVal;
+		}
+		return val;
+	}
 
 	// return the new router
 	return router;

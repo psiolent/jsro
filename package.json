@@ -1,29 +1,30 @@
 {
-  "name": "jsro",
-  "version": "0.1.0",
-  "description": "JavaScript Remote Objects",
-  "main": "index.js",
-  "scripts": {
-    "test": "grunt test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/psiolent/jsro.git"
-  },
-  "author": "Aja Walker <aja@ajawalker.com> (http://www.ajawalker.com)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/psiolent/jsro/issues"
-  },
-  "homepage": "https://github.com/psiolent/jsro#readme",
-  "devDependencies": {
-    "chai": "^2.3.0",
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-simple-mocha": "^0.4.0"
-  },
-  "dependencies": {
-	"body-parser": "~1.13.2",
-	"q": "~1.4.1"
-  }
+	"name": "jsro",
+	"version": "0.1.1",
+	"description": "JavaScript Remote Objects",
+	"main": "index.js",
+	"scripts": {
+		"test": "grunt test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/psiolent/jsro.git"
+	},
+	"author": "Aja Walker <aja@ajawalker.com> (http://www.ajawalker.com)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/psiolent/jsro/issues"
+	},
+	"homepage": "https://github.com/psiolent/jsro#readme",
+	"devDependencies": {
+		"chai": "^2.3.0",
+		"grunt": "^0.4.5",
+		"grunt-contrib-jshint": "^0.11.2",
+		"grunt-simple-mocha": "^0.4.0"
+	},
+	"dependencies": {
+		"body-parser": "~1.13.2",
+		"q": "~1.4.1",
+		"trigger-maker": "~0.1.0"
+	}
 }

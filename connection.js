@@ -152,7 +152,7 @@ module.exports.create = function(data, instantiate) {
 		var instanceID = nextID++;
 
 		// create a trigger for firing events the instance may want to listen to
-		var trigger = require('./trigger').create();
+		var trigger = require('trigger-maker').create();
 
 		// record when we've been fully instantiated
 		var instantiated;
